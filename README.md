@@ -35,3 +35,4 @@ tl;dr: `Cmd + Shift + P` -> Attach to running container
 * [Django & Cloud Run tutorial](https://cloud.google.com/python/django/run)
    * Includes Secret Manager, CloudSQL
 * `GS_DEFAULT_ACL = 'publicRead'` is not compatible with [Uniform Bucket Level Access](https://cloud.google.com/storage/docs/uniform-bucket-level-access). Fails with "Cannot insert legacy ACL for an object when uniform bucket-level access is enabled."
+* Cloud Build service account is no longer used as the default. See https://cloud.google.com/build/docs/cloud-build-service-account-updates.
