@@ -31,9 +31,7 @@ try:
 except google.auth.exceptions.DefaultCredentialsError:
     pass
 
-if os.path.isfile(env_file):
-    env.read_env(env_file)
-elif os.environ.get('GOOGLE_CLOUD_PROJECT', None):
+if os.environ.get('GOOGLE_CLOUD_PROJECT', None):
     project_id = os.environ.get('GOOGLE_CLOUD_PROJECT')
     client = secretmanager.SecretManagerServiceClient()
     settings_name = os.environ.get('SETTINGS_NAME', 'django_settings')
@@ -41,6 +39,8 @@ elif os.environ.get('GOOGLE_CLOUD_PROJECT', None):
     payload = client.access_secret_version(name = name).payload.data.decode("UTF-8")
 
     env.read_env(io.StringIO(payload))
+elif os.path.isfile(env_file):
+    env.read_env(env_file)
 else:
     raise Exception("No local .env or GOOGLE_CLOUD_PROJECT detected.")
 
