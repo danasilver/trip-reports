@@ -26,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(DEBUG=(bool, False))
 env_file = os.path.join(BASE_DIR, '.env')
 
-IS_CLOUD_RUN_ENVIRONMENT = os.environ.get('CLOUD_RUN_JOB', None)
+CLOUD_RUN_JOB = os.environ.get('CLOUD_RUN_JOB', None)
+print("Cloud run job name:", CLOUD_RUN_JOB)
 
 try:
     _, project_id = google.auth.default()
@@ -35,7 +36,7 @@ try:
 except google.auth.exceptions.DefaultCredentialsError:
     pass
 
-if IS_CLOUD_RUN_ENVIRONMENT:
+if CLOUD_RUN_JOB:
     project_id = os.environ.get('GOOGLE_CLOUD_PROJECT')
     client = secretmanager.SecretManagerServiceClient()
     settings_name = os.environ.get('SETTINGS_NAME', 'django_settings')
