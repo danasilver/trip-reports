@@ -26,8 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env(DEBUG=(bool, False))
 env_file = os.path.join(BASE_DIR, '.env')
 
-CLOUD_RUN_JOB = os.environ.get('CLOUD_RUN_JOB', None)
-print("Env:", os.environ)
+# Use the K_SERVICE variable to detect if we're running in GCS
+# https://cloud.google.com/run/docs/container-contract
+K_SERVICE = os.environ.get('K_SERVICE', None)
 
 try:
     _, project_id = google.auth.default()
@@ -36,7 +37,7 @@ try:
 except google.auth.exceptions.DefaultCredentialsError:
     pass
 
-if CLOUD_RUN_JOB:
+if K_SERVICE:
     project_id = os.environ.get('GOOGLE_CLOUD_PROJECT')
     client = secretmanager.SecretManagerServiceClient()
     settings_name = os.environ.get('SETTINGS_NAME', 'django_settings')
