@@ -2,7 +2,7 @@
 FROM python:3.11-slim
 
 # Removes output stream buffering, allowing for more efficient logging
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONUNBUFFERED=1
 
 WORKDIR /code
 COPY requirements.txt /code/
