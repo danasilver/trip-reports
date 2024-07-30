@@ -12,11 +12,13 @@ services:
     command: python manage.py runserver 0.0.0.0:8080
     volumes:
       - .:/code
+      - ${HOME}/.config/gcloud/application_default_credentials.json:/application_default_credentials.json
     ports:
       - "8080:8080"
     environment:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+      - DEBUG=True
     depends_on:
       - db

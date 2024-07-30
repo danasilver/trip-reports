@@ -23,15 +23,19 @@ from google.cloud import secretmanager
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-env = environ.Env(DEBUG=(bool, True))
+env = environ.Env(DEBUG=(bool, False))
 env_file = os.path.join(BASE_DIR, '.env')
 
+IS_CLOUD_RUN_ENVIRONMENT = os.environ.get('CLOUD_RUN_JOB', None)
+
 try:
-    _, os.environ['GOOGLE_CLOUD_PROJECT'] = google.auth.default()
+    _, project_id = google.auth.default()
+    if project_id:
+        os.environ['GOOGLE_CLOUD_PROJECT'] = project_id
 except google.auth.exceptions.DefaultCredentialsError:
     pass
 
-if os.environ.get('GOOGLE_CLOUD_PROJECT', None):
+if IS_CLOUD_RUN_ENVIRONMENT:
     project_id = os.environ.get('GOOGLE_CLOUD_PROJECT')
     client = secretmanager.SecretManagerServiceClient()
     settings_name = os.environ.get('SETTINGS_NAME', 'django_settings')

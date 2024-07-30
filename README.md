@@ -4,7 +4,19 @@
 
 1. Install [Docker](https://docs.docker.com/get-docker/).
 
-2. Run:
+2. The app uses Google Cloud Storage for dev and prod static files. Install the
+   [gcloud CLI](https://cloud.google.com/sdk/docs/install) and login using an
+   account that has permission to read/write to the development bucket
+   (found in [.env](./.env)).
+
+   ```
+   gcloud auth application-default login
+   ```
+
+   See the docs on
+   [`django-storages[google]`](https://django-storages.readthedocs.io/en/latest/backends/gcloud.html).
+
+3. Run:
 
    ```
    docker compose up
