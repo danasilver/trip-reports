@@ -27,7 +27,7 @@ env = environ.Env(DEBUG=(bool, False))
 env_file = os.path.join(BASE_DIR, '.env')
 
 CLOUD_RUN_JOB = os.environ.get('CLOUD_RUN_JOB', None)
-print("Cloud run job name:", CLOUD_RUN_JOB)
+print("Env:", os.environ)
 
 try:
     _, project_id = google.auth.default()
